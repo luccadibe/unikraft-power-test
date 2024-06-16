@@ -20,20 +20,20 @@ rm -rf tpch-dbgen
 
 git clone https://github.com/lovasoa/tpch-dbgen.git
 
-cd tpch-dbgen
+
 
 # Build the dbgen tool
-make
+SCALE_FACTOR=$DBGEN_SIZE make
 
-
-./dbgen -s $DBGEN_SIZE
 
 cd ~
 
 cd unikraft-power-test/rootfs
 
 
-cp ~/TPCH-sqlite/TPC-H.db .
+mv ~/TPCH-sqlite/TPC-H.db .
+
+rm -r ~/TPCH-sqlite
 
 cd ..
 
