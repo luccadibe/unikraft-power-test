@@ -33,7 +33,7 @@ cd unikraft-power-test/rootfs
 
 mv ~/TPCH-sqlite/TPC-H.db .
 
-rm -r ~/TPCH-sqlite
+
 
 cd ..
 
