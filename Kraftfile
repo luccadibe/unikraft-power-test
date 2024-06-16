@@ -1,0 +1,61 @@
+spec: v0.6
+
+name: sqlite
+
+rootfs: ./rootfs
+
+cmd: [
+  "/TPC-H.db",
+  ".timer 'on'",
+  ".read 'query1.sql'",
+  ".read 'query2.sql'",
+  ".read 'query3.sql'",
+  ".read 'query4.sql'",
+  ".read 'query5.sql'",
+  ".read 'query6.sql'",
+  ".read 'query7.sql'",
+  ".read 'query8.sql'",
+  ".read 'query9.sql'",
+  ".read 'query10.sql'",
+  ".read 'query11.sql'",
+  ".read 'query12.sql'",
+  ".read 'query13.sql'",
+  ".read 'query14.sql'",
+  ".read 'query15.sql'",
+  ".read 'query16.sql'",
+  ".read 'query17.sql'",
+  ".read 'query18.sql'",
+  ".read 'query19.sql'",
+  ".read 'query20.sql'",
+  ".read 'query21.sql'",
+  ".read 'query22.sql'"
+]
+
+unikraft:
+  version: staging
+  kconfig:
+
+    CONFIG_LIBVFSCORE: 'y'
+
+
+    CONFIG_LIBRAMFS: 'y'
+
+    # For automatic mounting of the initramfs during boot.
+    # Note this configuration prevents the unikernel from
+    # using anything else other than initrd as the rootfs.
+    CONFIG_LIBVFSCORE_AUTOMOUNT_ROOTFS: 'y'
+    CONFIG_LIBVFSCORE_ROOTFS_INITRD: 'y'
+    CONFIG_LIBVFSCORE_ROOTFS: "initrd"
+
+targets:
+- qemu/x86_64
+- qemu/arm64
+- fc/x86_64
+- fc/arm64
+
+libraries:
+  musl: stable
+  sqlite:
+    version: stable
+    kconfig:
+      CONFIG_LIBSQLITE_MAIN_FUNCTION: 'y'
