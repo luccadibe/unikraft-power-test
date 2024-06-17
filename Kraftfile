@@ -35,16 +35,27 @@ cmd:
 unikraft:
   version: staging
   kconfig:
+    # For using embedded initrd you will need to enable
+    # Unikraft's VFS subsystem:
     CONFIG_LIBVFSCORE: "y"
 
+    # For any use of einitrd you will need to enable:
     CONFIG_LIBRAMFS: "y"
+    CONFIG_LIBCPIO: "y"
+    CONFIG_LIBVFSCORE_ROOTFS_EINITRD: "y"
 
-    # For automatic mounting of the initramfs during boot.
-    # Note this configuration prevents the unikernel from
-    # using anything else other than initrd as the rootfs.
+    # To force using the embedded initrd persistently
+    # you can set the automount flag:
     CONFIG_LIBVFSCORE_AUTOMOUNT_ROOTFS: "y"
-    CONFIG_LIBVFSCORE_ROOTFS_INITRD: "y"
-    CONFIG_LIBVFSCORE_ROOTFS: "initrd"
+
+    # Alternatively, for dynamic mounting, wherein you
+    # configure mounting options at boot time via
+    # kernel command-line arguments:
+    CONFIG_LIBVFSCORE_FSTAB: "y"
+
+    # If you've set `rootfs` to a directory or a Dockerfile,
+    # this will be the default location of its output.
+    CONFIG_LIBVFSCORE_ROOTFS_EINITRD_PATH: .unikraft/build/initramfs.cpio
 
 targets:
   - qemu/x86_64
