@@ -28,14 +28,22 @@ SCALE_FACTOR=$DBGEN_SIZE make
 
 cd ~
 
-cd unikraft-power-test/rootfs
+cd unikraft-power-test
+mkdir rootfs
+
+cd rootfs
 
 
 mv ~/TPCH-sqlite/TPC-H.db .
 
 
 if [ $TEST = "power" ]; then
-  cp ../queries/* .
+  #if the queries are not in the rootfs, copy them
+  if [ ! -e query1.sql ]; then
+    cp ../queries/* .
+  fi
+  
+  cd ..
   cat <<EOF > Kraftile
   spec: v0.6
 
@@ -106,6 +114,10 @@ EOF
 
 
 elif [ $TEST = "boot" ]; then
+  if [  -e query1.sql ]; then
+    rm query*.sql
+  fi
+  cd ..
   cat <<EOF > Kraftile
 spec: v0.6
 
@@ -151,7 +163,6 @@ EOF
 fi
 #TODO throughput
 
-cd ..
 
 
 kraft build --target qemu/x86_64
