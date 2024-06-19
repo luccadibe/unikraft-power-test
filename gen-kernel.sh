@@ -44,8 +44,8 @@ if [ $TEST = "power" ]; then
   fi
   
   cd ..
-  cat <<EOF > Kraftile
-  spec: v0.6
+  cat <<EOF > Kraftfile
+spec: v0.6
 
 name: sqlite
 
@@ -118,7 +118,7 @@ elif [ $TEST = "boot" ]; then
     rm query*.sql
   fi
   cd ..
-  cat <<EOF > Kraftile
+  cat <<EOF > Kraftfile
 spec: v0.6
 
 name: sqlite
