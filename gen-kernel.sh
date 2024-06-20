@@ -21,7 +21,7 @@ if [ ! -d "TPCH-sqlite" ]; then
   mv TPC-H.db TPC-H-$DBGEN_SIZE.db
 
   #check if there is already a generated db of the specified size
-elif [ ! -e "TPCH-sqlite/TPC-H-$DBGEN_SIZE.db" ]; then
+elif [ ! -e "~/unikraft-power-test/rootfs/TPC-H-$DBGEN_SIZE.db" ]; then
   cd TPCH-sqlite
   SCALE_FACTOR=$DBGEN_SIZE make
 
