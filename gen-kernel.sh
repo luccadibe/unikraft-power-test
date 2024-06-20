@@ -21,8 +21,11 @@ if [ ! -d "TPCH-sqlite" ]; then
   mv TPC-H.db TPC-H-$DBGEN_SIZE.db
 
   #check if there is already a generated db of the specified size
-elif [ ! -e "~/unikraft-power-test/rootfs/TPC-H-$DBGEN_SIZE.db" ]; then
+elif [ ! -e "TPCH-sqlite/TPC-H-$DBGEN_SIZE.db" ]; then
+  rm TPCH-sqlite/tpch-dbgen/*.tbl
+
   cd TPCH-sqlite
+  
   SCALE_FACTOR=$DBGEN_SIZE make
 
   mv TPC-H.db TPC-H-$DBGEN_SIZE.db
@@ -33,15 +36,20 @@ fi
 cd ~
 
 cd unikraft-power-test
+
 mkdir rootfs
 
 cd rootfs
 
+#if there is other dbs remove them
+rm -f TPC-H-*.db
 
-mv ~/TPCH-sqlite/TPC-H-$DBGEN_SIZE.db .
+
+
 
 
 if [ $TEST = "power" ]; then
+  cp ~/TPCH-sqlite/TPC-H-$DBGEN_SIZE.db .
   #if the queries are not in the rootfs, copy them
   if [ ! -e query1.sql ]; then
     cp ../queries/* .
