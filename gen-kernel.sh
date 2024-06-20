@@ -10,20 +10,24 @@ DBGEN_SIZE=$1
 TEST=$2
 cd ~
 
-git clone https://github.com/lovasoa/TPCH-sqlite.git
+# check if directory TPCH-sqlite exists
+if [ ! -d "TPCH-sqlite" ]; then
+  git clone https://github.com/lovasoa/TPCH-sqlite.git
+  cd TPCH-sqlite
+  rm -rf tpch-dbgen
+  git clone https://github.com/lovasoa/tpch-dbgen.git
 
-cd TPCH-sqlite
+  SCALE_FACTOR=$DBGEN_SIZE make
+  mv TPC-H.db TPC-H-$DBGEN_SIZE.db
 
+  #check if there is already a generated db of the specified size
+elif [ ! -e "TPCH-sqlite/TPC-H-$DBGEN_SIZE.db" ]; then
+  cd TPCH-sqlite
+  SCALE_FACTOR=$DBGEN_SIZE make
 
-rm -rf tpch-dbgen
+  mv TPC-H.db TPC-H-$DBGEN_SIZE.db
+fi
 
-
-git clone https://github.com/lovasoa/tpch-dbgen.git
-
-
-
-# Build the dbgen tool
-SCALE_FACTOR=$DBGEN_SIZE make
 
 
 cd ~
@@ -34,7 +38,7 @@ mkdir rootfs
 cd rootfs
 
 
-mv ~/TPCH-sqlite/TPC-H.db .
+mv ~/TPCH-sqlite/TPC-H-$DBGEN_SIZE.db .
 
 
 if [ $TEST = "power" ]; then
@@ -53,7 +57,7 @@ rootfs: ./rootfs
 
 cmd:
   [
-    "/TPC-H.db",
+    "/TPC-H.db-$DBGEN_SIZE",
     ".timer 'on'",
     ".read 'query1.sql'",
     ".read 'query2.sql'",
