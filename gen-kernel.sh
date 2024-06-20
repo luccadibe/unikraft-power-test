@@ -57,7 +57,7 @@ rootfs: ./rootfs
 
 cmd:
   [
-    "/TPC-H.db-$DBGEN_SIZE",
+    "/TPC-H-$DBGEN_SIZE.db",
     ".timer 'on'",
     ".read 'query1.sql'",
     ".read 'query2.sql'",
