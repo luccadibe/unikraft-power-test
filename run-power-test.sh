@@ -60,8 +60,8 @@ while IFS= read -r line; do
             total_time=$(echo "$time_15 + $time_16 + $time_17" | bc)
             # Write the combined result to the output file
             echo "$iteration,15,$total_time" >> "$OUTPUT_FILE"
-            
-        elif [[ $query -eq 18 ] && [f$first]]; then
+
+        elif [[ $query -eq 18 ] && [$first]]; then
             query=$((query - 2))
             first=false
         else
